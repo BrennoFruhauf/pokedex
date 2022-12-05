@@ -24,26 +24,26 @@ const rgbToHex = (r, g, b) => '#' + [r, g, b].map((x) => {
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
 
-  function convertPokeapiToModel(api) {
+
+async function convertPokeapiToModel(api) {
   const pokemon = new Pokemon()
   const img = new Image()
   const colorThief = new ColorThief()
+
   pokemon.number = api.id
   pokemon.name = api.name
   pokemon.artwork = api.sprites.other['official-artwork'].front_default
-  img.crossOrigin = 'Anonymous'
-  img.src = pokemon.artwork
-  img.onload = () => {
-    //if (img.complete) {
-      const rgbColor = colorThief.getColor(img)
-      return pokemon.color = rgbColor
-    // } else {
-    //   img.addEventListener('load', () => {
-    //     const rgbColor = colorThief.getColor(img)
-    //     return pokemon.color =  rgbColor
-    //   })
-  } //}
 
+  const imgLoad = new Promise (resolve => {
+    img.crossOrigin = 'Anonymous'
+    img.src = pokemon.artwork
+    img.onload = async () => {
+      if (img.complete)
+        await colorThief.getColor(img).then(resolve)
+    }
+  })
+
+  pokemon.color = await imgLoad.then(colorRGB => rgbToHex(colorRGB[0], colorRGB[1], colorRGB[2]))
   pokemon.types = api.types.map((typeSlot) => typeSlot.type.name)
   pokemon.type = pokemon.types[0]
   pokemon.height = api.height
@@ -67,11 +67,10 @@ poke.getPokemonsDetails = (pokemon) => {
   return fetch(pokemon.url)
     .then((response) => response.json())
     .then(convertPokeapiToModel)
-    .then((callback) => console.log(callback))
 }
 
 // Cria um método para obter os dados da API
-poke.getPokemons = (offset = 0, limit = 16) => {
+poke.getPokemons = (offset = 10, limit = 16) => {
   // Declaração da API Pokeapi
   const api = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
 

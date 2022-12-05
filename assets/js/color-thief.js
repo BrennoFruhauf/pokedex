@@ -54,10 +54,10 @@ var ColorThief = function () {};
  * most dominant color.
  *
  * */
-ColorThief.prototype.getColor = function (sourceImage, quality = 10) {
-  const palette = this.getPalette(sourceImage, 5, quality);
-  const dominantColor = palette[0];
-  return dominantColor;
+ColorThief.prototype.getColor = async function (sourceImage, quality = 10) {
+  const palette = await this.getPalette(sourceImage, 5, quality);
+  const dominantColor = await palette[0];
+  return await dominantColor;
 };
 
 /*
