@@ -3,6 +3,7 @@
   font-size: 16px;
   box-sizing: border-box;
   border: none;
+  user-select: none;
   padding: 0;
   margin: 0;
 }
@@ -10,4 +11,50 @@
 .title {
   margin-left: 1rem;
   font-weight: 800;
+}
+
+.show-pokemon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
+
+  .btn {
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border-radius: 0.9rem;
+    background-color: rgb(252, 138, 176);
+    color: white;
+    font-weight: 900;
+    text-shadow: 1px 1px 2px rgba($color: #000000, $alpha: .4);
+    background-image: url(../img/pokeball.png);
+    background-size: 26%;
+    background-repeat: no-repeat;
+    background-position: center right 5px;
+    box-shadow: 2px 2px 4px rgba($color: #000000, $alpha: .5);
+
+    &:hover {
+      // background-position: top 2px right 5px;
+      animation: pokeball 2s;
+    }
+
+    span {
+      position: relative;
+      right: 20px;
+    }
+  }
+}
+
+@keyframes pokeball {
+  0% {
+    background-position: center right 5px;
+  } 
+
+  80% {
+    background-position-y: 2.5px;
+  }
+
+  100% {
+    background-position: center right 5px;
+  }
 }
