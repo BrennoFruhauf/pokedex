@@ -70,7 +70,7 @@ poke.getPokemonsDetails = (pokemon) => {
 }
 
 // Cria um método para obter os dados da API
-poke.getPokemons = (offset = 10, limit = 16) => {
+poke.getPokemons = (offset = 0, limit = 6) => {
   // Declaração da API Pokeapi
   const api = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
 

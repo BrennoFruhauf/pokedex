@@ -2,7 +2,8 @@ import poke from './pokeapi.js'
 
 function showPokemonHTML(pokemon) {
   return `
-    <li style="background-color: ${pokemon.color};">
+    <!-- <li class="${pokemon.type}"> -->
+    <li style="background-color: ${pokemon.color}">
       <div>
         <p class="pokemon-number">#${(pokemon.number).toLocaleString('pt-BR', {minimumIntegerDigits: 3, useGrouping: false})}</p>
         <p class="pokemon-name">${pokemon.name}</p>
