@@ -1,4 +1,4 @@
-import ColorThief from "./color-thief.js";
+import ColorThief from "../modules/color-thief.js";
 
 const poke = {}
 
@@ -19,45 +19,45 @@ class Pokemon {
   weight;
 }
 
-const rgbToHex = (r, g, b) => '#' + [r, g, b].map((x) => {
-  const hex = x.toString(16)
+const rgbToHex = (rgb, brightness = 0) => '#' + rgb.map((x) => {
+  let newColor = Number.parseInt(x * (brightness / 100 + 1))
+  if (newColor > 255) newColor = 255
+  else if (newColor < 0) newColor = 0
+  const hex = newColor.toString(16)
   return hex.length === 1 ? '0' + hex : hex
 }).join('')
-
 
 async function convertPokeapiToModel(api) {
   const pokemon = new Pokemon()
   const img = new Image()
   const colorThief = new ColorThief()
-
-  pokemon.number = api.id
-  pokemon.name = api.name
-  pokemon.artwork = api.sprites.other['official-artwork'].front_default
-
-  const imgLoad = new Promise (resolve => {
-    img.crossOrigin = 'Anonymous'
-    img.src = pokemon.artwork
-    img.onload = async () => {
-      if (img.complete)
-        await colorThief.getColor(img).then(resolve)
-    }
-  })
-
-  pokemon.color = await imgLoad.then(colorRGB => rgbToHex(colorRGB[0], colorRGB[1], colorRGB[2]))
-  pokemon.types = api.types.map((typeSlot) => typeSlot.type.name)
-  pokemon.type = pokemon.types[0]
-  pokemon.height = api.height
-  pokemon.weight = api.weight
-
   const stats = api.stats.map((statSlot) => statSlot.base_stat)
   const [hp, atk, de, sa, sd, speed] = stats
-
+  
+  pokemon.number = api.id
+  pokemon.name = api.name
+  pokemon.height = api.height
+  pokemon.weight = api.weight
   pokemon.hp = hp
   pokemon.attack = atk
   pokemon.defense = de
   pokemon.sa = sa
   pokemon.sd = sd
   pokemon.speed = speed
+  pokemon.artwork = api.sprites.other['official-artwork'].front_default
+
+  const imgLoad = new Promise (resolve => {
+    img.crossOrigin = 'Anonymous'
+    img.src = pokemon.artwork
+    img.onload = () => {
+      if (img.complete)
+        colorThief.getColor(img).then(resolve)
+    }
+  })
+
+  pokemon.color = await imgLoad.then(colorRGB => rgbToHex(colorRGB))
+  pokemon.types = api.types.map((typeSlot) => typeSlot.type.name)
+  pokemon.type = pokemon.types[0]
 
   return pokemon
 }
@@ -70,7 +70,7 @@ poke.getPokemonsDetails = (pokemon) => {
 }
 
 // Cria um método para obter os dados da API
-poke.getPokemons = (offset = 0, limit = 6) => {
+poke.getPokemons = (offset = 0, limit = 16) => {
   // Declaração da API Pokeapi
   const api = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
 
@@ -83,24 +83,5 @@ poke.getPokemons = (offset = 0, limit = 6) => {
     .then((detailRequest) => Promise.all(detailRequest))
     .then((pokemonsDetails) => pokemonsDetails)
 }
-
-// -----------------------------------------------------------------------
-
-// FORMA ASYNC DE REALIZAR O MESMO CÓDIGO
-
-// poke.getPokemonsDetails = async (pokemon) => {
-//   const response = await fetch(pokemon.url)
-//   return convertPokeapiToModel(response.json())
-// }
-
-// poke.getPokemons = async (offset = 20, limit = 20) => {
-//   const api = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
-//   const response = await fetch(api)
-//   const jsonBody = await response.json()
-//   const pokemons = jsonBody.results
-//   const detailRequest = pokemons.map(poke.getPokemonsDetails)
-//   const pokemonsDetails = await Promise.all(detailRequest)
-//   return pokemonsDetails
-// }
 
 export default poke
