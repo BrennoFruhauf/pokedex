@@ -4,7 +4,6 @@
   list-style: none;
   margin: 0px 0.5rem 0.5rem;
   gap: 0.5rem;
-  
 
   li {
     overflow: hidden;
@@ -90,18 +89,43 @@
   }
 }
 
+@media screen and (max-width: 359px) {
+  #pokemon-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  #pokemon-card {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 800px) {
+  #pokemon-card {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  #pokemon-card {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
 @keyframes showCard {
   0% {
-      opacity: 0;
-      transform:  translate(0, -20px);
+    opacity: 0;
+    transform:  translate(0, -20px);
   }
 
   50% {
-      opacity: .5;
+    opacity: .5;
   }
 
   100% {
-      opacity: 1;
-      transform:  translate(0, 0);
+    opacity: 1;
+    transform:  translate(0, 0);
   }
 }
