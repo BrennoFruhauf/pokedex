@@ -248,6 +248,11 @@ body {
   height: 102vh;
   overflow: scroll;
 }
+#pokemon-details > div {
+  width: 100%;
+  height: 100vh;
+  background-color: #181b1d;
+}
 
 .show-animation {
   animation: showDetails 1.5s;
@@ -272,7 +277,7 @@ body {
 
 #body-details {
   margin-top: 2vh;
-  height: 100vh;
+  height: 600px;
 }
 #body-details #back {
   margin: 2rem 0 0 0;
@@ -329,7 +334,7 @@ body {
 .content-pokemon {
   position: absolute;
   padding-bottom: 2rem;
-  background-color: #181B1D;
+  background-color: #181b1d;
   color: white;
   border-radius: 2rem 2rem 0 0;
   width: 100%;
@@ -415,53 +420,53 @@ body {
   animation: loadStatsBar 3s;
 }
 #stats .hp {
-  background-color: #481D1D;
+  background-color: #481d1d;
 }
 #stats .hp::after {
   width: var(--hpNumber, 0%);
-  background-color: #FF0000;
+  background-color: #ff0000;
 }
 #stats .atk {
-  background-color: #4D3124;
+  background-color: #4d3124;
 }
 #stats .atk::after {
   width: var(--atkNumber, 0%);
-  background-color: #F08030;
+  background-color: #f08030;
 }
 #stats .de {
   background-color: #53441c;
 }
 #stats .de::after {
   width: var(--deNumber, 0%);
-  background-color: #F8D030;
+  background-color: #f8d030;
 }
 #stats .sp-atk {
   background-color: #263253;
 }
 #stats .sp-atk::after {
   width: var(--saNumber, 0%);
-  background-color: #6890F0;
+  background-color: #6890f0;
 }
 #stats .sp-de {
   background-color: #2a461d;
 }
 #stats .sp-de::after {
   width: var(--sdNumber, 0%);
-  background-color: #78C850;
+  background-color: #78c850;
 }
 #stats .speed {
   background-color: #461b28;
 }
 #stats .speed::after {
   width: var(--spdNumber, 0%);
-  background-color: #F85888;
+  background-color: #f85888;
 }
 #stats .total {
   background-color: #532453;
 }
 #stats .total::after {
   width: var(--totalNumber, 0%);
-  background-color: #A040A0;
+  background-color: #a040a0;
 }
 
 #evolution-chain span {
